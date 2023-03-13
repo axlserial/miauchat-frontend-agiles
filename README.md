@@ -20,3 +20,7 @@ MiauChat es un proyecto de la asignatura de Desarrollo Ágil de Software de la U
 
 1. Previamente se debe tener el backend corriendo.
 2. Ejecutar el servidor de desarrollo con `npm run dev`
+
+### Ejecución de pruebas
+
+1. Ejecutar las pruebas con `npm run test`
