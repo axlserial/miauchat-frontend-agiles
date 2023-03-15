@@ -11,6 +11,9 @@ import {
 import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 
 const Login = () => {
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {};
+  
   return (
     <div >
       <Container >
@@ -18,7 +21,7 @@ const Login = () => {
           <Stack
             align="center"
             justify="space-around"
-            sx={{ padding: "90px 15px 0px 15px" }}
+            sx={{ padding: "70px 15px 0px 15px" }}
           >
             <Image width={200} height={200} fit="contain" src="src/assets/images/Icon_MiauChat.svg" />
             <Container>
@@ -34,7 +37,7 @@ const Login = () => {
               </Title>
             </Container>
           </Stack>
-          <form action="">
+          <form onSubmit={handleSubmit}>
             <Container size={500} sx={{ padding: "0px 15px 90px 15px" }}>
               <Stack
                 spacing="xl"
