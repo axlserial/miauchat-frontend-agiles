@@ -17,10 +17,12 @@
     "@mantine/notifications": "^6.0.1",
     "@mantine/nprogress": "^6.0.1",
     "@mantine/spotlight": "^6.0.1",
+    "@tabler/icons-react": "^2.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
-    "socket.io-client": "^4.6.1"
+    "socket.io-client": "^4.6.1",
+    "zustand": "^4.3.6"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
