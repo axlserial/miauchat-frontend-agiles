@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Container } from "@mantine/core";
 import { Rutas } from "./routes";
+import bg from "./assets/images/background_light_miauChat.svg";
 
 // Page components
 import Login from "./pages/Login";
@@ -18,8 +19,7 @@ const App = () => {
 				element={
 					<div
 						style={{
-							backgroundImage:
-								"url(src/assets/images/background_light_miauChat.svg)",
+							backgroundImage: "url(" + bg + ")",
 							width: "auto",
 							height: "98vh",
 						}}
