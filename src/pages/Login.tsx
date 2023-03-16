@@ -32,10 +32,15 @@ const Login = () => {
 			// si no hay error, redirige a la página de inicio
 			navigate("/chats");
 		} catch (error: any) {
+			let mensaje = "Usuario o contraseña incorrectos";
+			if (error.message === "Failed to fetch") {
+				mensaje = "Error de conexión, intente de nuevo";
+			}
+
 			notifications.show({
 				title: "Error",
 				color: "red",
-				message: 'Usuario o contraseña incorrectos',
+				message: mensaje,
 			});
 		}
 	};
