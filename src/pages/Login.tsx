@@ -7,11 +7,12 @@ import {
 	Title,
 	Container,
 	Button,
+	Text,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconEyeCheck, IconEyeOff } from "@tabler/icons-react";
 import { login } from "../services/usuarios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -107,6 +108,11 @@ const Login = () => {
 								>
 									Ingresar
 								</Button>
+								<Stack justify="center" align="center" spacing="xs">
+									<Link to="/registrarse">
+										<Text size="sm">¿Sin cuenta? Regístrate</Text>
+									</Link>
+								</Stack>
 							</Stack>
 						</Container>
 					</form>
