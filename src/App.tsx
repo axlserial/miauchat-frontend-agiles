@@ -2,12 +2,18 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Container } from "@mantine/core";
 import { Rutas } from "./routes";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useSessionStore } from "./stores/sessionStore";
+import Layout from "./components/Layout";
+
 // Page components
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Registro from "./pages/registro";
 
 const App = () => {
+	const usuario = useSessionStore((state) => state.usuario);
+
 	return (
 		<Routes>
 			{/* Ruta raíz */}
@@ -33,8 +39,12 @@ const App = () => {
 				}
 			/>
 
-			{/* Ruta chats */}
-			<Route path={Rutas.chats} element={<div>Compontente chats</div>} />
+			{/* Ruta chats, protegida */}
+			<Route element={<ProtectedRoute isAuth={usuario.id !== 0} />}>
+				<Route path="/" element={<Layout />}>
+					<Route path={Rutas.chats} element={<div>Compontente chats</div>} />
+				</Route>
+			</Route>
 
 			{/* Not found */}
 			<Route path="*" element={<NotFound />} />

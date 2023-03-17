@@ -14,8 +14,11 @@ import { IconEyeCheck, IconEyeOff } from "@tabler/icons-react";
 import { login } from "../services/usuarios";
 import { useNavigate, Link } from "react-router-dom";
 
+import { useSessionStore } from "../stores/sessionStore";
+
 const Login = () => {
 	const navigate = useNavigate();
+	const setUsuario = useSessionStore((state) => state.setUsuario);
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -30,7 +33,8 @@ const Login = () => {
 		try {
 			const data = await login({ usuario, password });
 
-			// si no hay error, redirige a la página de inicio
+			// guarda el usuario en el store y navega a la ruta chats
+			setUsuario(data);
 			navigate("/chats");
 		} catch (error: any) {
 			let mensaje = "Usuario o contraseña incorrectos";
