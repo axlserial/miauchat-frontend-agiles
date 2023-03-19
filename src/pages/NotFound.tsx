@@ -1,8 +1,12 @@
 const NotFound = () => {
 	return (
-		<main>
-			<h1>404 - Not Found</h1>
-		</main>
+		<div style={{
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+		}}>
+			<h3>404 - Not Found</h3>
+		</div>
 	);
 };
 

@@ -53,11 +53,11 @@ const Login = () => {
 	return (
 		<div>
 			<Container>
-				<Paper shadow="sm" radius="sm" p="x1" withBorder>
+				<Paper shadow="sm" radius="sm" p="xs" withBorder >
 					<Stack
 						align="center"
 						justify="space-around"
-						sx={{ padding: "70px 15px 0px 15px" }}
+						sx={{ padding: "8% 10% 0% 10%" }}
 					>
 						<Image
 							width={200}
@@ -70,9 +70,9 @@ const Login = () => {
 								sx={(theme) => ({
 									fontFamily: `Open Sans, ${theme.fontFamily}`,
 									fontWeight: 600,
-									fontSize: "25px",
-									paddingTop: "30px",
-									paddingBottom: "50px",
+									fontSize: "156%",
+									paddingTop: "20%",
+									paddingBottom: "20%",
 								})}
 							>
 								¡Bienvenido a MiauChat!
@@ -80,7 +80,7 @@ const Login = () => {
 						</Container>
 					</Stack>
 					<form onSubmit={handleSubmit}>
-						<Container size={500} sx={{ padding: "0px 15px 90px 15px" }}>
+						<Container size={500} sx={{ padding: "0% 5% 10% 5%" }}>
 							<Stack spacing="xl">
 								<TextInput
 									name="user"

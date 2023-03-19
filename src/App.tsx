@@ -50,7 +50,9 @@ const App = () => {
 			</Route>
 
 			{/* Not found */}
-			<Route path="*" element={<NotFound />} />
+			<Route path="*" element={<Container sx={{paddingTop: "2%", paddingBottom:"2%", backgroundColor:"GrayText"}}>
+				<NotFound />
+			</Container>} />
 		</Routes>
 	);
 };
