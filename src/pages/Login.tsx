@@ -8,6 +8,7 @@ import {
 	Container,
 	Button,
 	Text,
+	Card,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconEyeCheck, IconEyeOff } from "@tabler/icons-react";
@@ -53,15 +54,14 @@ const Login = () => {
 	return (
 		<div>
 			<Container>
-				<Paper shadow="sm" radius="sm" p="xs" withBorder >
+				<Card shadow="sm" radius="sm" withBorder sx={{}}>
 					<Stack
 						align="center"
-						justify="space-around"
-						sx={{ padding: "8% 10% 0% 10%" }}
+						style={{ paddingTop:"2%"}}
 					>
 						<Image
-							width={200}
-							height={200}
+							width={150}
+							height={150}
 							fit="contain"
 							src="src/assets/images/Icon_MiauChat.svg"
 						/>
@@ -71,8 +71,8 @@ const Login = () => {
 									fontFamily: `Open Sans, ${theme.fontFamily}`,
 									fontWeight: 600,
 									fontSize: "156%",
-									paddingTop: "20%",
-									paddingBottom: "20%",
+									paddingTop: "10%",
+									paddingBottom: "10%",
 								})}
 							>
 								¡Bienvenido a MiauChat!
@@ -80,7 +80,7 @@ const Login = () => {
 						</Container>
 					</Stack>
 					<form onSubmit={handleSubmit}>
-						<Container size={500} sx={{ padding: "0% 5% 10% 5%" }}>
+						<Container size="xs" sx={{paddingBottom:"3%"}}>
 							<Stack spacing="xl">
 								<TextInput
 									name="user"
@@ -120,7 +120,7 @@ const Login = () => {
 							</Stack>
 						</Container>
 					</form>
-				</Paper>
+				</Card>
 			</Container>
 		</div>
 	);
