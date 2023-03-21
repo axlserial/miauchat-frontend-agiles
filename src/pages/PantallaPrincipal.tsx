@@ -13,8 +13,17 @@ import {
 	Avatar,
 	AppShell,
 	Header,
+	rem,
+	Menu, 
+	useMantineTheme
 } from "@mantine/core";
-import { useEventListener, useScrollIntoView } from "@mantine/hooks";
+import { useEventListener, useScrollIntoView, useClipboard } from "@mantine/hooks";
+import {IconCalendarStats, IconDoorEnter,
+	IconArmchair,
+	IconUsers,
+	IconCalendar,
+	IconPlus,
+   } from '@tabler/icons-react';
 import React, { useState,useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -29,6 +38,16 @@ function PantallaPrincipal() {
 	const [exit, setExit] = useState(0);
 	const increment = useCallback(() => setExit(1), []);
 	const ref = useEventListener('click', increment);
+	const clipboard = useClipboard();
+	const menucito = {
+		label: 'Releases',
+		icon: IconCalendarStats,
+		links: [
+		  { label: 'Upcoming releases', link: '/' },
+		  { label: 'Previous releases', link: '/' },
+		  { label: 'Releases schedule', link: '/' },
+		],
+	  };
 	{/*salida de la app*/}
 	useEffect(() => {
 		if (exit==1) {
@@ -116,17 +135,17 @@ function PantallaPrincipal() {
 					<Group position="center">
 						<Paper
 							ref={scrollableRef}
-							h={"45vh"}
+							h={"56vh"}
 							sx={{ overflowY: "scroll", flex: 1 }}
 						>
+							< ButtonMenu />
 							{/*cargar salas*/}
 							{listItems}
+							
 						</Paper>
 					</Group>
-					<div>
-						boton add
-					</div>
 				</div>
+				
 				{/*parte derecha*/}
 				<div style={{ width: "70%", float: "right" }}>
 					<div
@@ -150,5 +169,35 @@ function PantallaPrincipal() {
 		</div>
 	);
 }
+
+function ButtonMenu() {
+	const theme = useMantineTheme();
+	return (
+	  <Menu
+		transitionProps={{ transition: 'pop-top-right' }}
+		position="top-end"
+		width={220}
+		withinPortal
+	  >
+		<Menu.Target>
+		  <Button rightIcon={<IconPlus size="2rem" stroke={2.5} />} pr={12}>
+		  </Button>
+		</Menu.Target>
+		<Menu.Dropdown>
+		  <Menu.Item
+			icon={<IconArmchair size="1rem" color={theme.colors.blue[6]} stroke={1.5} />}
+		  >
+			Nueva Sala
+		  </Menu.Item>
+		  <Menu.Item
+			icon={<IconDoorEnter size="1rem" color={theme.colors.pink[6]} stroke={1.5} />}
+		  >
+			Unirme a una sala
+		  </Menu.Item>
+		</Menu.Dropdown>
+	  </Menu>
+	);
+  }
+  
 
 export default PantallaPrincipal;
