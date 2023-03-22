@@ -14,22 +14,33 @@ import {
   Stack,
 } from '@mantine/core';
 
+import { crear } from '../services/salas'
+import { useNavigate, Link } from "react-router-dom";
+import { notifications } from "@mantine/notifications";
+import { useSessionStore } from "../stores/sessionStore";
+import { IconDatabaseExport } from '@tabler/icons-react';
+//import { serializeStyles } from '@emotion/serialize';
+//import { identity } from '@mantine/core/lib/Box/style-system-props/value-getters/get-default-value';
+
+
 export function ModalCrearSala(props: PaperProps) {
+  const navigate = useNavigate();
+  const usuario = useSessionStore((state) => state.usuario);
+  
   const [type, toggle] = useToggle(['crear', 'unirse']);
   const form = useForm({
     initialValues: {
       name: '',
       terms: true,
+      id : usuario.id,
     },
   });
-
+  
   return (
     <Paper radius="md" p="xl" withBorder {...props}>
       <Text size="lg" weight={500}>
         ¿Quiere {type} una sala? 
       </Text>
-
-      
 
       {/* <Divider label="Or continue with email" labelPosition="center" my="lg" /> */}
 
@@ -40,10 +51,10 @@ export function ModalCrearSala(props: PaperProps) {
             required
             label="Código de Sala"
             placeholder= "7*SF-65"
-           // value={form.values.email}
-            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-            error={form.errors.email && 'Invalid email'}
-            radius="md"
+            value={form.values.name}
+            // onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+            // error={form.errors.name && 'Código inválido'}
+            // radius="md"
           />
           )}
 
@@ -52,9 +63,9 @@ export function ModalCrearSala(props: PaperProps) {
             required
             label="Nombre de Sala"
             placeholder= "Cuartel Gatuno :3"
-           // value={form.values.email}
-            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-            error={form.errors.email && 'Invalid email'}
+            value={form.values.name}
+            onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+            error={form.errors.name && 'Nombre inválido'}
             radius="md"
           />
           )}
@@ -72,11 +83,42 @@ export function ModalCrearSala(props: PaperProps) {
               ? '¿Desea crear a una Sala?'
               : "¿Desea unirse a una Sala?"}
           </Anchor>
-          <Button type="submit" radius="xl">
-            {upperFirst(type)}
+          <Button type="submit" radius="xl" onClick={() => type ==='crear' ? crearSala(form.values.id, form.values.name): unirseSala()}>
+            { upperFirst(type)
+            }
           </Button>
         </Group>
       </form>
     </Paper>
   );
+
+  async function crearSala(creador_id:number, nombre_sala: string){
+    console.log('entro a crearSala')
+    console.log(creador_id,nombre_sala)
+    try{
+      const data = await crear({ creador_id, nombre_sala });
+      notifications.show({
+				title: "Exitoso",
+				color: "green",
+				message: "Se creo la sala exitossamente",
+			});
+    }catch (error: any) {
+			let mensaje = "Usuario o contraseña incorrectos";
+			if (error.message === "Failed to fetch") {
+				mensaje = "Error de conexión, intente de nuevo";
+			}
+
+			notifications.show({
+				title: "Error",
+				color: "red",
+				message: mensaje,
+			});
+		}
+    
+
+
+  }
+  async function unirseSala(){
+
+  }
 }

@@ -8,4 +8,8 @@ const api = createApi("/salas")
 export const crear = (signUpData: {
     creador_id: number;
 	nombre_sala: string;
-}) => api.post("crear", {json: signUpData}).json<Sala>();
+}) => {
+    console.log('sala.ts')
+    return api.post("crear", {json: signUpData}).json<Sala>()
+    
+};
