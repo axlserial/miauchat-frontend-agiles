@@ -5,3 +5,10 @@ export type Usuario = {
 	password?: string;
 	foto_perfil: number;
 };
+
+export type Sala = {
+	id: number;
+	creador_id: number;
+	nombre_sala: string;
+	ultimo_mensaje?: Date;
+}

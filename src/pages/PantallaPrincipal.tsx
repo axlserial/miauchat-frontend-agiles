@@ -15,9 +15,10 @@ import {
 	Header,
 	rem,
 	Menu, 
-	useMantineTheme
+	useMantineTheme,
+	TextInput, Modal
 } from "@mantine/core";
-import { useEventListener, useScrollIntoView, useClipboard } from "@mantine/hooks";
+import { useEventListener, useScrollIntoView, useClipboard, useDisclosure } from "@mantine/hooks";
 import {IconCalendarStats, IconDoorEnter,
 	IconArmchair,
 	IconUsers,
@@ -25,7 +26,11 @@ import {IconCalendarStats, IconDoorEnter,
 	IconPlus,
    } from '@tabler/icons-react';
 import React, { useState,useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useForm } from '@mantine/form';
+import { transitions } from "@mantine/core/lib/Transition/transitions";
+import { modals } from '@mantine/modals';
+import { ModalCrearSala } from '../pages/crearModal';
 
 function PantallaPrincipal() {
 	const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView<
@@ -39,6 +44,8 @@ function PantallaPrincipal() {
 	const increment = useCallback(() => setExit(1), []);
 	const ref = useEventListener('click', increment);
 	const clipboard = useClipboard();
+	const [abierto, setAbierto] = useState(false);
+	const theme = useMantineTheme();
 	const menucito = {
 		label: 'Releases',
 		icon: IconCalendarStats,
@@ -138,15 +145,15 @@ function PantallaPrincipal() {
 							h={"56vh"}
 							sx={{ overflowY: "scroll", flex: 1 }}
 						>
-							< ButtonMenu />
 							{/*cargar salas*/}
 							{listItems}
-							
 						</Paper>
 					</Group>
+					<ButtonMenu/>
 				</div>
 				
 				{/*parte derecha*/}
+				
 				<div style={{ width: "70%", float: "right" }}>
 					<div
 						style={{
@@ -167,37 +174,39 @@ function PantallaPrincipal() {
 				</div>
 			</Card>
 		</div>
+		
 	);
+	function ButtonMenu() {
+		const theme = useMantineTheme();
+		const [opened, { open, close }] = useDisclosure(false);
+		const [abierto, setAbierto] = useState(false);
+		return (
+			<>
+		<Modal
+        opened={opened}
+        onClose={close}
+        title="Crear/Unirse a Sala"
+        overlayProps={{
+          color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2],
+          opacity: 0.55,
+          blur: 3,
+        }}
+      >
+        {/* Modal content */
+			<ModalCrearSala/>
+		}
+      </Modal>
+
+      <Group position="center">
+        <Button onClick={open}>Open modal</Button>
+      </Group>
+    </>
+  );
+	}	
 }
 
-function ButtonMenu() {
-	const theme = useMantineTheme();
-	return (
-	  <Menu
-		transitionProps={{ transition: 'pop-top-right' }}
-		position="top-end"
-		width={220}
-		withinPortal
-	  >
-		<Menu.Target>
-		  <Button rightIcon={<IconPlus size="2rem" stroke={2.5} />} pr={12}>
-		  </Button>
-		</Menu.Target>
-		<Menu.Dropdown>
-		  <Menu.Item
-			icon={<IconArmchair size="1rem" color={theme.colors.blue[6]} stroke={1.5} />}
-		  >
-			Nueva Sala
-		  </Menu.Item>
-		  <Menu.Item
-			icon={<IconDoorEnter size="1rem" color={theme.colors.pink[6]} stroke={1.5} />}
-		  >
-			Unirme a una sala
-		  </Menu.Item>
-		</Menu.Dropdown>
-	  </Menu>
-	);
-  }
-  
 
+
+  
+  
 export default PantallaPrincipal;
