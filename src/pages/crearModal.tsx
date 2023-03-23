@@ -14,14 +14,11 @@ import {
   Stack,
 } from '@mantine/core';
 
-import { crear } from '../services/salas'
+import { crear, unirse } from '../services/salas'
 import { useNavigate, Link } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 import { useSessionStore } from "../stores/sessionStore";
 import { IconDatabaseExport } from '@tabler/icons-react';
-//import { serializeStyles } from '@emotion/serialize';
-//import { identity } from '@mantine/core/lib/Box/style-system-props/value-getters/get-default-value';
-
 
 export function ModalCrearSala(props: PaperProps) {
   const navigate = useNavigate();
@@ -52,9 +49,9 @@ export function ModalCrearSala(props: PaperProps) {
             label="Código de Sala"
             placeholder= "7*SF-65"
             value={form.values.name}
-            // onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
-            // error={form.errors.name && 'Código inválido'}
-            // radius="md"
+            onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+            error={form.errors.name && 'Código inválido'}
+            radius="md"
           />
           )}
 
@@ -83,7 +80,7 @@ export function ModalCrearSala(props: PaperProps) {
               ? '¿Desea crear a una Sala?'
               : "¿Desea unirse a una Sala?"}
           </Anchor>
-          <Button type="submit" radius="xl" onClick={() => type ==='crear' ? crearSala(form.values.id, form.values.name): unirseSala()}>
+          <Button type="submit" radius="xl" onClick={() => type ==='crear' ? crearSala(form.values.id, form.values.name): unirseSala(form.values.id, form.values.name)}>
             { upperFirst(type)
             }
           </Button>
@@ -100,7 +97,7 @@ export function ModalCrearSala(props: PaperProps) {
       notifications.show({
 				title: "Exitoso",
 				color: "green",
-				message: "Se creo la sala exitossamente",
+				message: "Se creo la sala exitosamente",
 			});
     }catch (error: any) {
 			let mensaje = "Usuario o contraseña incorrectos";
@@ -114,11 +111,28 @@ export function ModalCrearSala(props: PaperProps) {
 				message: mensaje,
 			});
 		}
-    
-
-
   }
-  async function unirseSala(){
+  async function unirseSala(usuario_id:number, sala_id: string){
+    console.log('entro a unirseSala')
+    console.log(usuario_id,sala_id)
+    try{
+      const data = await unirse({ usuario_id, sala_id });
+      notifications.show({
+				title: "Exitoso",
+				color: "green",
+				message: "Te has unido a la sala",
+			});
+    }catch (error: any) {
+			let mensaje = "Código de sala incorrecto";
+			if (error.message === "Failed to fetch") {
+				mensaje = "Error de conexión, intente de nuevo";
+			}
 
+			notifications.show({
+				title: "Error",
+				color: "red",
+				message: mensaje,
+			});
+		}
   }
 }

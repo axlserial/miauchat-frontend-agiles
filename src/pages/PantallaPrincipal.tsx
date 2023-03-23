@@ -2,35 +2,21 @@ import {
 	Image,
 	Group,
 	Text,
-	Badge,
 	Button,
 	Card,
-	Container,
 	Grid,
-	Navbar,
 	Paper,
 	Box,
-	Avatar,
-	AppShell,
-	Header,
-	rem,
-	Menu, 
+	Avatar, 
 	useMantineTheme,
 	TextInput, Modal
 } from "@mantine/core";
-import { useEventListener, useScrollIntoView, useClipboard, useDisclosure } from "@mantine/hooks";
-import {IconCalendarStats, IconDoorEnter,
-	IconArmchair,
-	IconUsers,
-	IconCalendar,
-	IconPlus,
-   } from '@tabler/icons-react';
+import { useEventListener, useScrollIntoView, useDisclosure } from "@mantine/hooks";
 import React, { useState,useCallback, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useForm } from '@mantine/form';
-import { transitions } from "@mantine/core/lib/Transition/transitions";
-import { modals } from '@mantine/modals';
 import { ModalCrearSala } from '../pages/crearModal';
+import { useSessionStore } from "../stores/sessionStore";
+import { salas } from '../services/salas'
 
 function PantallaPrincipal() {
 	const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView<
@@ -39,22 +25,11 @@ function PantallaPrincipal() {
 	>();
 	const navigate = useNavigate();
 	const salas_ejemplo = ["sala1", "sala2", "sala3", "sala4", "sala5"];
-	const nombre_ejemplo = "nombre1";
 	const [exit, setExit] = useState(0);
 	const increment = useCallback(() => setExit(1), []);
 	const ref = useEventListener('click', increment);
-	const clipboard = useClipboard();
-	const [abierto, setAbierto] = useState(false);
 	const theme = useMantineTheme();
-	const menucito = {
-		label: 'Releases',
-		icon: IconCalendarStats,
-		links: [
-		  { label: 'Upcoming releases', link: '/' },
-		  { label: 'Previous releases', link: '/' },
-		  { label: 'Releases schedule', link: '/' },
-		],
-	  };
+	const usuario = useSessionStore((state) => state.usuario);
 	{/*salida de la app*/}
 	useEffect(() => {
 		if (exit==1) {
@@ -117,7 +92,7 @@ function PantallaPrincipal() {
 						</Card.Section>
 
 						<Group position="center" mt="md" mb="xs">
-							<Text weight={500}>{nombre_ejemplo}</Text>
+							<Text weight={500}>{usuario.usuario}</Text>
 						</Group>
 
 						<Button
@@ -179,7 +154,6 @@ function PantallaPrincipal() {
 	function ButtonMenu() {
 		const theme = useMantineTheme();
 		const [opened, { open, close }] = useDisclosure(false);
-		const [abierto, setAbierto] = useState(false);
 		return (
 			<>
 		<Modal
