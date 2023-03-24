@@ -16,7 +16,6 @@ import React, { useState,useCallback, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ModalCrearSala } from '../pages/crearModal';
 import { useSessionStore } from "../stores/sessionStore";
-import { salas } from '../services/salas'
 
 function PantallaPrincipal() {
 	const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView<
