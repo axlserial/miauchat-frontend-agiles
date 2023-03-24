@@ -23,7 +23,7 @@ export const useSalaStore = create<SalaStore>((set) => ({
 			const salas = await getSalas(usuario.id);
 			set({ salas });
 		} catch (e) {
-			// Si hay un error, se limpia la información del usuario
+			// Si hay un error, se limpian las salas.
 			set({ salas: [] });
 		}
 	},
