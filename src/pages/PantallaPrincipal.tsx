@@ -23,6 +23,8 @@ import { logout } from "../services/usuarios";
 
 // Forma de importar una imagen
 import bgImage from "../assets/images/Icon_MiauChat.svg";
+const usuario = useSessionStore((state) => state.usuario);
+const rutaImagen = "/src/assets/images/Users_profile/" + getNombreImagen(usuario.foto_perfil);
 
 const floatingButtonStyle = {
 	bottom: '20px',
@@ -41,10 +43,8 @@ function PantallaPrincipal() {
 	const increment = useCallback(() => setExit(1), []);
 	const ref = useEventListener('click', increment);
 	const theme = useMantineTheme();
-	const usuario = useSessionStore((state) => state.usuario);
 	const clearUsuario = useSessionStore((state) => state.clearUsuario);
 	const { salas, fetchSalas } = useSalaStore();
-	const rutaImagen = "/src/assets/images/Users_profile/" + getNombreImagen(usuario.id);
 	useEffect(() => {
 		(async () => await fetchSalas(usuario.id))()
 	  }, []);
@@ -207,7 +207,7 @@ function PantallaPrincipal() {
 }
 
 function getNombreImagen(numero: number) {
-	const nombresImagenes = {
+	const nombreImagen: {[numero: number]:any} = {
 		1: "Gato_caja.png",
 		2: "Gato_flor.png",
 		3: "Gato_gorro.png",
@@ -215,8 +215,7 @@ function getNombreImagen(numero: number) {
 		5: "Gato_mause.png",
 		6: "Gato_pez.png",
 	  };
-	const nombreImagen = nombresImagenes[numero];
-	return nombreImagen;
+	return nombreImagen[numero];
   }
   
 export default PantallaPrincipal;
