@@ -116,7 +116,7 @@ const Login = () => {
 									Ingresar
 								</Button>
 								<Stack justify="center" align="center" spacing="xs">
-									<Link to="/registrarse">
+									<Link to={ Rutas.signup }>
 										<Text size="sm">¿Sin cuenta? Regístrate</Text>
 									</Link>
 								</Stack>
