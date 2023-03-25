@@ -16,10 +16,12 @@ import { notifications } from "@mantine/notifications";
 import { useSessionStore } from "../stores/sessionStore";
 import { Rutas } from "../routes";
 
+import bgImage from "../assets/images/Icon_MiauChat.svg";
 function Registro() {
 	const setUsuario = useSessionStore((state) => state.setUsuario);
-
 	const [image_select, set_image_select] = useState(0);
+	const rutaImagen = "/src/assets/images/Users_profile/";
+	console.log(rutaImagen)
 	const [bandera, set_bandera] = useState(0);
 	const changeImage = (idImagen: number) => {
 		set_image_select(idImagen);
@@ -107,7 +109,7 @@ function Registro() {
 							height: "10%",
 							top: "5%",
 						}}
-						src="src/assets/images/Icon_MiauChat.svg"
+						src={bgImage}
 					/>
 				</div>
 				<div
@@ -189,7 +191,7 @@ function Registro() {
 								<Avatar.Group spacing="30">
 									<Tooltip label="Gato en caja" withArrow>
 										<Avatar
-											src="/src/assets/images/Users_profile/Gato_caja.png"
+											src={rutaImagen+getNombreImagen(1)}
 											radius="xl"
 											size={image_select == 1 ? "15%" : "md"}
 											onClick={() => {
@@ -199,7 +201,7 @@ function Registro() {
 									</Tooltip>
 									<Tooltip label="Gato con Flores" withArrow>
 										<Avatar
-											src="/src/assets/images/Users_profile/Gato_flor.png"
+											src={rutaImagen+getNombreImagen(2)}
 											radius="xl"
 											size={image_select == 2 ? "15%" : "md"}
 											onClick={() => {
@@ -209,7 +211,7 @@ function Registro() {
 									</Tooltip>
 									<Tooltip label="Gato con gorro" withArrow>
 										<Avatar
-											src="/src/assets/images/Users_profile/Gato_gorro.png"
+											src={rutaImagen+getNombreImagen(3)}
 											radius="xl"
 											size={image_select == 3 ? "15%" : "md"}
 											onClick={() => {
@@ -219,7 +221,7 @@ function Registro() {
 									</Tooltip>
 									<Tooltip label="Gato en maceta" withArrow>
 										<Avatar
-											src="/src/assets/images/Users_profile/Gato_maceta.png"
+											src={rutaImagen+getNombreImagen(4)}
 											radius="xl"
 											size={image_select == 4 ? "15%" : "md"}
 											onClick={() => {
@@ -229,7 +231,7 @@ function Registro() {
 									</Tooltip>
 									<Tooltip label="Gato mause" withArrow>
 										<Avatar
-											src="/src/assets/images/Users_profile/Gato_mause.png"
+											src={rutaImagen+getNombreImagen(5)}
 											radius="xl"
 											size={image_select == 5 ? "15%" : "md"}
 											onClick={() => {
@@ -239,7 +241,7 @@ function Registro() {
 									</Tooltip>
 									<Tooltip label="Gato pez" withArrow>
 										<Avatar
-											src="/src/assets/images/Users_profile/Gato_pez.png"
+											src={rutaImagen+getNombreImagen(6)}
 											radius="xl"
 											size={image_select == 6 ? "15%" : "md"}
 											onClick={() => {
@@ -323,6 +325,19 @@ function Registro() {
 			</Card>
 		</div>
 	);
+}
+
+function getNombreImagen(numero: number) {
+	const nombreImagen: {[numero: number]:any} = {
+		1: "Gato_caja.png",
+		2: "Gato_flor.png",
+		3: "Gato_gorro.png",
+		4: "Gato_maceta.png",
+		5: "Gato_mause.png",
+		6: "Gato_pez.png",
+	  
+	};	
+	return nombreImagen[numero];
 }
 
 export default Registro;
