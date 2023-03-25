@@ -6,7 +6,7 @@ import { useSessionStore } from "./sessionStore";
 
 type SalaStore = {
 	salas: Sala[];
-	fetchSalas: () => Promise<void>;
+	fetchSalas: (id: number) => Promise<void>;
 };
 
 /*
@@ -15,12 +15,12 @@ type SalaStore = {
  */
 export const useSalaStore = create<SalaStore>((set) => ({
 	salas: [],
-	fetchSalas: async () => {
-		const usuario = useSessionStore((state) => state.usuario);
+	fetchSalas: async (id) => {
+		// const usuario = useSessionStore((state) => state.usuario);
 
 		// Se llama al servicio para obtener las salas del usuario.
 		try {
-			const salas = await getSalas(usuario.id);
+			const salas = await getSalas(id);
 			set({ salas });
 		} catch (e) {
 			// Si hay un error, se limpian las salas.
