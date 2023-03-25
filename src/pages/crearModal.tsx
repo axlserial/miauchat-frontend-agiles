@@ -19,11 +19,12 @@ import { useNavigate, Link } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 import { useSessionStore } from "../stores/sessionStore";
 import { IconDatabaseExport } from '@tabler/icons-react';
+import { useSalaStore } from '../stores/salaStore';
 
 export function ModalCrearSala(props: PaperProps) {
   const navigate = useNavigate();
   const usuario = useSessionStore((state) => state.usuario);
-  
+  const { fetchSalas } = useSalaStore();
   const [type, toggle] = useToggle(['crear', 'unirse']);
   const form = useForm({
     initialValues: {
@@ -90,10 +91,10 @@ export function ModalCrearSala(props: PaperProps) {
   );
 
   async function crearSala(creador_id:number, nombre_sala: string){
-    console.log('entro a crearSala')
-    console.log(creador_id,nombre_sala)
+    
     try{
       const data = await crear({ creador_id, nombre_sala });
+      fetchSalas(creador_id);
       notifications.show({
 				title: "Exitoso",
 				color: "green",
@@ -113,10 +114,9 @@ export function ModalCrearSala(props: PaperProps) {
 		}
   }
   async function unirseSala(usuario_id:number, sala_id: string){
-    console.log('entro a unirseSala')
-    console.log(usuario_id,sala_id)
     try{
       const data = await unirse({ usuario_id, sala_id });
+      fetchSalas(usuario_id);
       notifications.show({
 				title: "Exitoso",
 				color: "green",

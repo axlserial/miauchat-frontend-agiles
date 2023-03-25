@@ -15,7 +15,15 @@ import { useEventListener, useScrollIntoView, useDisclosure } from "@mantine/hoo
 import React, { useState,useCallback, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ModalCrearSala } from '../pages/crearModal';
+import { useSalaStore } from "../stores/salaStore";
 import { useSessionStore } from "../stores/sessionStore";
+import { IconDoorExit, IconPlus } from "@tabler/icons-react";
+const floatingButtonStyle = {
+	bottom: '20px',
+	right: '20px',
+	zIndex: 1000, // Asegura que el botón esté por encima de otros elementos en la página
+  };
+
 
 function PantallaPrincipal() {
 	const { scrollIntoView, targetRef, scrollableRef } = useScrollIntoView<
@@ -23,20 +31,25 @@ function PantallaPrincipal() {
 		HTMLDivElement
 	>();
 	const navigate = useNavigate();
-	const salas_ejemplo = ["sala1", "sala2", "sala3", "sala4", "sala5"];
 	const [exit, setExit] = useState(0);
 	const increment = useCallback(() => setExit(1), []);
 	const ref = useEventListener('click', increment);
 	const theme = useMantineTheme();
 	const usuario = useSessionStore((state) => state.usuario);
+	const { salas, fetchSalas } = useSalaStore();
+	const rutaImagen = "/src/assets/images/Users_profile/" + getNombreImagen(usuario.id);
+	useEffect(() => {
+		(async () => await fetchSalas(usuario.id))()
+	  }, []);
+	console.log(salas);
 	{/*salida de la app*/}
 	useEffect(() => {
 		if (exit==1) {
 		  navigate('/iniciar-sesion');
 		}
 	},[exit])
-	const listItems = salas_ejemplo.map((cad, index) => (
-		<Box pt={1} pb={1} key={index}>
+	const listItems = salas.reverse().map((sala) => (
+		<Box pt={1} pb={1} key={sala.id}>
 			<Paper
 				ref={targetRef}
 				p="xl"
@@ -49,7 +62,7 @@ function PantallaPrincipal() {
 				})}
 			>
 				<Button style={{ backgroundColor: "#e9ecef" }}>
-					<Text color="black">{cad}</Text>
+					<Text color="black">{sala.nombre_sala}</Text>
 				</Button>
 			</Paper>
 		</Box>
@@ -60,7 +73,7 @@ function PantallaPrincipal() {
 			<Card shadow="xl" radius="md" withBorder>
 				{/*parte izquierda*/}
 				<div
-					style={{ width: "30%", height: "88vh", float: "left", backgroundColor: "lightblue" }}
+					style={{ width: "30%", height: "60vh", float: "left", backgroundColor: "lightblue" }}
 				>
 					<Card shadow="sm" padding="lg" radius="md" withBorder>
 						<Card.Section>
@@ -76,7 +89,7 @@ function PantallaPrincipal() {
 										}}
 									>
 										<Avatar
-											src="/src/assets/images/Users_profile/Gato_maceta.png"
+											src= {rutaImagen}
 											radius="90%"
 											size="30%"
 										/>
@@ -84,7 +97,7 @@ function PantallaPrincipal() {
 								</Grid.Col>
 								<Grid.Col span={2}>
 									<Group position="center">
-										<Button size="1.5vw" ref={ref}>Salir</Button>
+										<Button rightIcon={<IconDoorExit size="3rem" stroke={2} />} pr={12} size="1.5vw" ref={ref}></Button>
 									</Group>
 								</Grid.Col>
 							</Grid>
@@ -119,11 +132,13 @@ function PantallaPrincipal() {
 							h={"56vh"}
 							sx={{ overflowY: "scroll", flex: 1 }}
 						>
-							{/*cargar salas*/}
 							{listItems}
 						</Paper>
 					</Group>
-					<ButtonMenu/>
+					<div style={floatingButtonStyle}>
+						<ButtonMenu/>
+					</div>
+					
 				</div>
 				
 				{/*parte derecha*/}
@@ -170,16 +185,28 @@ function PantallaPrincipal() {
 		}
       </Modal>
 
-      <Group position="center">
-        <Button onClick={open}>Open modal</Button>
+      <Group position="right">
+		<div>
+		<Button rightIcon={<IconPlus size="3rem" stroke={4} />} pr={12} variant="outline" onClick={open}></Button>
+		</div>
+        
       </Group>
     </>
   );
 	}	
 }
 
-
-
-  
+function getNombreImagen(numero: number) {
+	const nombresImagenes = {
+		1: "Gato_caja.png",
+		2: "Gato_flor.png",
+		3: "Gato_gorro.png",
+		4: "Gato_maceta.png",
+		5: "Gato_mause.png",
+		6: "Gato_pez.png",
+	  };
+	const nombreImagen = nombresImagenes[numero];
+	return nombreImagen;
+  }
   
 export default PantallaPrincipal;
