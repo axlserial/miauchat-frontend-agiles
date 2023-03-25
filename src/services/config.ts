@@ -1,4 +1,5 @@
 import ky from "ky";
+import { ApiUrl } from "./baseUrl";
 
 /**
  * Función que crea el objeto para hacer las peticiones HTTP al servidor
@@ -7,7 +8,7 @@ import ky from "ky";
  */
 const createApi = (ruta: string) =>
 	ky.create({
-		prefixUrl: `http://localhost:3146/api/v1/${ruta}`,
+		prefixUrl: `${ApiUrl}/api/v1/${ruta}`,
 		credentials: "include",
 	});
 

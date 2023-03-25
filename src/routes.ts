@@ -1,8 +1,11 @@
 /*
  * Una constante con las rutas de la aplicación.
  */
+
+export const base = "/miauchat/";
+
 export const Rutas = {
-	login: "iniciar-sesion",
-	signup: "registrarse",
-	chats: "chats",
+	login: base + "iniciar-sesion",
+	signup: base + "registrarse",
+	chats: base + "chats",
 };

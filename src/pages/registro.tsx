@@ -14,6 +14,7 @@ import { signup } from "../services/usuarios";
 import { notifications } from "@mantine/notifications";
 
 import { useSessionStore } from "../stores/sessionStore";
+import { Rutas } from "../routes";
 
 function Registro() {
 	const setUsuario = useSessionStore((state) => state.setUsuario);
@@ -51,7 +52,7 @@ function Registro() {
 				
 				// guarda el usuario en el store y navega a la ruta chats
 				setUsuario(data);
-				navigate("/chats");
+				navigate(Rutas.chats);
 			} catch (error: any) {
 				notifications.show({
 					title: "Error",

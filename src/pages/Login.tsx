@@ -15,7 +15,10 @@ import { IconEyeCheck, IconEyeOff } from "@tabler/icons-react";
 import { login } from "../services/usuarios";
 import { useNavigate, Link } from "react-router-dom";
 
+import { Rutas } from "../routes";
 import { useSessionStore } from "../stores/sessionStore";
+
+import loginImage from "../assets/images/Icon_MiauChat.svg";
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -36,7 +39,7 @@ const Login = () => {
 
 			// guarda el usuario en el store y navega a la ruta chats
 			setUsuario(data);
-			navigate("/chats");
+			navigate(Rutas.chats);
 		} catch (error: any) {
 			let mensaje = "Usuario o contraseña incorrectos";
 			if (error.message === "Failed to fetch") {
@@ -63,7 +66,7 @@ const Login = () => {
 							width={150}
 							height={150}
 							fit="contain"
-							src="src/assets/images/Icon_MiauChat.svg"
+							src={loginImage}
 						/>
 						<Container>
 							<Title

@@ -2,8 +2,6 @@ import { create } from "zustand";
 import { Sala } from "../types";
 import { getSalas } from "../services/salas";
 
-import { useSessionStore } from "./sessionStore";
-
 type SalaStore = {
 	salas: Sala[];
 	fetchSalas: (id: number) => Promise<void>;
@@ -16,8 +14,6 @@ type SalaStore = {
 export const useSalaStore = create<SalaStore>((set) => ({
 	salas: [],
 	fetchSalas: async (id) => {
-		// const usuario = useSessionStore((state) => state.usuario);
-
 		// Se llama al servicio para obtener las salas del usuario.
 		try {
 			const salas = await getSalas(id);

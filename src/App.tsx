@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Container } from "@mantine/core";
-import { Rutas } from "./routes";
+import { base, Rutas } from "./routes";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useSessionStore } from "./stores/sessionStore";
@@ -19,6 +19,9 @@ const App = () => {
 		<Routes>
 			{/* Ruta raíz */}
 			<Route index element={<Navigate to={Rutas.login} />} />
+
+			{/* Ruta base */}
+			<Route path={base} element={<Navigate to={Rutas.login} />} />
 
 			{/* Ruta login */}
 			<Route

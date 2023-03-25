@@ -18,6 +18,12 @@ import { ModalCrearSala } from '../pages/crearModal';
 import { useSalaStore } from "../stores/salaStore";
 import { useSessionStore } from "../stores/sessionStore";
 import { IconDoorExit, IconPlus } from "@tabler/icons-react";
+import { Rutas } from "../routes";
+import { logout } from "../services/usuarios";
+
+// Forma de importar una imagen
+import bgImage from "../assets/images/Icon_MiauChat.svg";
+
 const floatingButtonStyle = {
 	bottom: '20px',
 	right: '20px',
@@ -36,6 +42,7 @@ function PantallaPrincipal() {
 	const ref = useEventListener('click', increment);
 	const theme = useMantineTheme();
 	const usuario = useSessionStore((state) => state.usuario);
+	const clearUsuario = useSessionStore((state) => state.clearUsuario);
 	const { salas, fetchSalas } = useSalaStore();
 	const rutaImagen = "/src/assets/images/Users_profile/" + getNombreImagen(usuario.id);
 	useEffect(() => {
@@ -45,7 +52,10 @@ function PantallaPrincipal() {
 	{/*salida de la app*/}
 	useEffect(() => {
 		if (exit==1) {
-		  navigate('/iniciar-sesion');
+			logout().then(() => {
+				clearUsuario();
+				navigate(Rutas.login);
+			});
 		}
 	},[exit])
 	const listItems = salas.reverse().map((sala) => (
@@ -157,7 +167,7 @@ function PantallaPrincipal() {
 					>
 						<Image
 							width={"60%"} height={"60%"}
-							src="src/assets/images/Icon_MiauChat.svg"
+							src={bgImage}
 						/>
 					</div>
 				</div>
