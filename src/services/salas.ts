@@ -25,3 +25,8 @@ export const unirse = (addUserData: {
 export const getSalas = (usuario_id: number) => {
 	return api.get(`salas-usuario/${usuario_id}`).json<Sala[]>();
 };
+
+//Servicio para cambair nombre de la sala
+export const cambiarNombreS = (sala_id: string, nuevo_nombre: string) => {
+	return api.put(`cambiarNombreSala/${sala_id}/${nuevo_nombre}`)
+}

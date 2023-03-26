@@ -80,7 +80,7 @@ function PantallaPrincipal() {
 		fetchSalas(usuario.id)
 			.then(data => {
 				if (id != undefined) {
-					const salaAct = data.find(sala => sala.id == id);
+					const salaAct = data.find((sala: { id: string | undefined; }) => sala.id == id);
 					setActual(salaAct as Sala);
 				}
 			})
