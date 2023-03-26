@@ -9,7 +9,7 @@ import {
 	Box,
 	Avatar,
 	useMantineTheme,
-	TextInput,
+	Loader,
 	Modal
 } from '@mantine/core';
 import { useEventListener, useScrollIntoView, useDisclosure } from '@mantine/hooks';
@@ -22,6 +22,7 @@ import { useSocketStore } from '../stores/socket.store';
 import { IconDoorExit, IconPlus } from '@tabler/icons-react';
 import { Rutas } from '../routes';
 import { logout } from '../services/usuarios';
+import { useParams } from 'react-router-dom';
 
 // Forma de importar una imagen
 import Layout from '../components/Layout';
@@ -31,6 +32,7 @@ import img3 from '../assets/images/Users_profile/Gato_gorro.png';
 import img4 from '../assets/images/Users_profile/Gato_maceta.png';
 import img5 from '../assets/images/Users_profile/Gato_mause.png';
 import img6 from '../assets/images/Users_profile/Gato_pez.png';
+import { Sala } from '../types';
 
 const floatingButtonStyle = {
 	bottom: '20px',
@@ -54,6 +56,9 @@ function PantallaPrincipal() {
 	const usuario = useSessionStore(state => state.usuario);
 	const setSocket = useSocketStore(state => state.setSocket);
 	const closeSocket = useSocketStore(state => state.closeSocket);
+	let { id } = useParams();
+
+	const [loading, setLoading] = useState(true);
 
 	let component = null;
 
@@ -72,8 +77,16 @@ function PantallaPrincipal() {
 
 	useEffect(() => {
 		setSocket(usuario.id);
-		(async () => await fetchSalas(usuario.id))();
+		fetchSalas(usuario.id)
+			.then(data => {
+				if (id != undefined) {
+					const salaAct = data.find(sala => sala.id == id);
+					setActual(salaAct as Sala);
+				}
+			})
+			.finally(() => setLoading(false));
 	}, []);
+
 	{
 		/*salida de la app*/
 	}
@@ -112,93 +125,111 @@ function PantallaPrincipal() {
 		</Box>
 	));
 	return (
-		<div style={{ position: 'relative' }}>
-			{/* crear la estructura*/}
-			<Card shadow="xl" radius="md" withBorder>
-				{/*parte izquierda*/}
+		<div>
+			{loading ? (
 				<div
 					style={{
-						width: '30%',
-						height: '60vh',
-						float: 'left',
-						backgroundColor: 'lightblue'
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)'
 					}}
 				>
-					<Card shadow="sm" padding="lg" radius="md" withBorder>
-						<Card.Section>
-							<Grid>
-								<Grid.Col span={2}></Grid.Col>
-								<Grid.Col span={8} style={{ height: '80%' }}>
-									<div
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center',
-											marginTop: '5%'
-										}}
-									>
-										{/*foto de perfil */}
-										{component}
-									</div>
-								</Grid.Col>
-								<Grid.Col span={2}>
-									<Group position="center">
-										<Button
-											rightIcon={
-												<IconDoorExit size="3rem" stroke={2} />
-											}
-											pr={12}
-											size="1.5vw"
-											ref={ref}
-										></Button>
-									</Group>
-								</Grid.Col>
-							</Grid>
-						</Card.Section>
-
-						<Group position="center" mt="md" mb="xs">
-							<Text weight={500}>{usuario.usuario}</Text>
-						</Group>
-
-						<Button
-							variant="light"
-							color="blue"
-							style={{ width: '50%' }}
-							mt="md"
-							radius="md"
+					<Loader size="lg" />
+				</div>
+			) : (
+				<div style={{ position: 'relative' }}>
+					{/* crear la estructura*/}
+					<Card shadow="xl" radius="md" withBorder>
+						{/*parte izquierda*/}
+						<div
+							style={{
+								width: '30%',
+								height: '60vh',
+								float: 'left',
+								backgroundColor: 'lightblue'
+							}}
 						>
-							Salas
-						</Button>
-						<Button
-							variant="light"
-							color="blue"
-							style={{ width: '50%' }}
-							mt="md"
-							radius="md"
-						>
-							Estados
-						</Button>
+							<Card shadow="sm" padding="lg" radius="md" withBorder>
+								<Card.Section>
+									<Grid>
+										<Grid.Col span={2}></Grid.Col>
+										<Grid.Col span={8} style={{ height: '80%' }}>
+											<div
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center',
+													marginTop: '5%'
+												}}
+											>
+												{/*foto de perfil */}
+												{component}
+											</div>
+										</Grid.Col>
+										<Grid.Col span={2}>
+											<Group position="center">
+												<Button
+													rightIcon={
+														<IconDoorExit
+															size="3rem"
+															stroke={2}
+														/>
+													}
+													pr={12}
+													size="1.5vw"
+													ref={ref}
+												></Button>
+											</Group>
+										</Grid.Col>
+									</Grid>
+								</Card.Section>
+
+								<Group position="center" mt="md" mb="xs">
+									<Text weight={500}>{usuario.usuario}</Text>
+								</Group>
+
+								<Button
+									variant="light"
+									color="blue"
+									style={{ width: '50%' }}
+									mt="md"
+									radius="md"
+								>
+									Salas
+								</Button>
+								<Button
+									variant="light"
+									color="blue"
+									style={{ width: '50%' }}
+									mt="md"
+									radius="md"
+								>
+									Estados
+								</Button>
+							</Card>
+							<Group position="center">
+								<Paper
+									ref={scrollableRef}
+									h={'56vh'}
+									sx={{ overflowY: 'scroll', flex: 1 }}
+								>
+									{listItems}
+								</Paper>
+							</Group>
+							<div style={floatingButtonStyle}>
+								<ButtonMenu />
+							</div>
+						</div>
+
+						{/*parte derecha*/}
+
+						<div style={{ width: '70%', float: 'right' }}>
+							<Layout />
+						</div>
 					</Card>
-					<Group position="center">
-						<Paper
-							ref={scrollableRef}
-							h={'56vh'}
-							sx={{ overflowY: 'scroll', flex: 1 }}
-						>
-							{listItems}
-						</Paper>
-					</Group>
-					<div style={floatingButtonStyle}>
-						<ButtonMenu />
-					</div>
 				</div>
-
-				{/*parte derecha*/}
-
-				<div style={{ width: '70%', float: 'right' }}>
-					<Layout />
-				</div>
-			</Card>
+			)}
 		</div>
 	);
 	function ButtonMenu() {
