@@ -78,11 +78,10 @@ const ChatBody = ({ sala }: ChatBodyProps) => {
 			sx={{
 				height: '92%',
 				position: 'relative',
-				zIndex: 1,
-				top: -60
+				top: -100
 			}}
 		>
-			<ScrollArea p="lg" scrollbarSize={10} sx={{ height: '74vh' }}>
+			<ScrollArea p="lg" scrollbarSize={10} sx={{ height: '70vh' }}>
 				<Stack>
 					{mensajes.map(mensaje => (
 						<ChatMessage

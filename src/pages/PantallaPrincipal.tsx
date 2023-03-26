@@ -12,9 +12,9 @@ import {
 	Loader,
 	Modal
 } from '@mantine/core';
-import { useEventListener, useScrollIntoView, useDisclosure } from '@mantine/hooks';
-import React, { useState, useCallback, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useScrollIntoView, useDisclosure } from '@mantine/hooks';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ModalCrearSala } from '../pages/crearModal';
 import { useSalaStore } from '../stores/salaStore';
 import { useSessionStore } from '../stores/sessionStore';
@@ -47,10 +47,6 @@ function PantallaPrincipal() {
 	>();
 
 	const navigate = useNavigate();
-	const [exit, setExit] = useState(0);
-	const increment = useCallback(() => setExit(1), []);
-	const ref = useEventListener('click', increment);
-	const theme = useMantineTheme();
 	const clearUsuario = useSessionStore(state => state.clearUsuario);
 	const { salas, fetchSalas, setActual } = useSalaStore();
 	const usuario = useSessionStore(state => state.usuario);
@@ -80,25 +76,15 @@ function PantallaPrincipal() {
 		fetchSalas(usuario.id)
 			.then(data => {
 				if (id != undefined) {
-					const salaAct = data.find((sala: { id: string | undefined; }) => sala.id == id);
+					const salaAct = data.find(
+						(sala: { id: string | undefined }) => sala.id == id
+					);
 					setActual(salaAct as Sala);
 				}
 			})
 			.finally(() => setLoading(false));
 	}, []);
 
-	{
-		/*salida de la app*/
-	}
-	useEffect(() => {
-		if (exit == 1) {
-			logout().then(() => {
-				clearUsuario();
-				closeSocket();
-				navigate(Rutas.login);
-			});
-		}
-	}, [exit]);
 	const listItems = salas.map(sala => (
 		<Box pt={1} pb={1} key={sala.id}>
 			<Paper
@@ -175,10 +161,19 @@ function PantallaPrincipal() {
 															stroke={2}
 														/>
 													}
-													style={{ marginRight: '5vh', marginTop: '1vh' }}
+													onClick={() =>
+														logout().then(() => {
+															clearUsuario();
+															closeSocket();
+															navigate(Rutas.login);
+														})
+													}
+													style={{
+														marginRight: '5vh',
+														marginTop: '1vh'
+													}}
 													pr={12}
 													size="1.5vw"
-													ref={ref}
 												></Button>
 											</Group>
 										</Grid.Col>
