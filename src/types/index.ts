@@ -22,6 +22,16 @@ export type Mensaje = {
 	es_adjunto: number;
 };
 
+export type Mensaje_with_author = {
+	id?: number;
+	usuario: string;
+	contenido: string;
+	emisor_id: number;
+	fecha_enviado: Date;
+	sala_id: string;
+	es_adjunto: number;
+};
+
 export type Archivo_adjunto = {
 	mensaje_id?: number;
 	nombre_archivo: string;
@@ -30,6 +40,6 @@ export type Archivo_adjunto = {
 };
 
 export type Mensaje_sala = {
-	mensaje: Mensaje;
+	mensaje: Mensaje_with_author;
 	archivo?: Archivo_adjunto;
 };

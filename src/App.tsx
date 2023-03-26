@@ -50,7 +50,7 @@ const App = () => {
 					element={
 						<Container
 							size="95%"
-							sx={{ paddingTop: "2%", paddingBottom: "2%" }}
+							sx={{ paddingTop: "1.5vh", paddingBottom: "1vh" }}
 						>
 							<PantallaPrincipal />
 						</Container>

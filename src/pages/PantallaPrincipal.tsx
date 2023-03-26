@@ -1,5 +1,5 @@
 import {
-	Image,
+	ActionIcon,
 	Group,
 	Text,
 	Button,
@@ -145,9 +145,7 @@ function PantallaPrincipal() {
 						<div
 							style={{
 								width: '30%',
-								height: '60vh',
-								float: 'left',
-								backgroundColor: 'lightblue'
+								float: 'left'
 							}}
 						>
 							<Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -170,12 +168,14 @@ function PantallaPrincipal() {
 										<Grid.Col span={2}>
 											<Group position="center">
 												<Button
+													variant="light"
 													rightIcon={
 														<IconDoorExit
-															size="3rem"
+															size="4vh"
 															stroke={2}
 														/>
 													}
+													style={{ marginRight: '5vh', marginTop: '1vh' }}
 													pr={12}
 													size="1.5vw"
 													ref={ref}
@@ -211,7 +211,7 @@ function PantallaPrincipal() {
 							<Group position="center">
 								<Paper
 									ref={scrollableRef}
-									h={'56vh'}
+									h={'55vh'}
 									sx={{ overflowY: 'scroll', flex: 1 }}
 								>
 									{listItems}
@@ -255,12 +255,15 @@ function PantallaPrincipal() {
 
 				<Group position="right">
 					<div>
-						<Button
-							rightIcon={<IconPlus size="3rem" stroke={4} />}
-							pr={12}
+						<ActionIcon
+							size={45}
+							w={50}
 							variant="outline"
 							onClick={open}
-						></Button>
+							color="blue"
+						>
+							<IconPlus size="3rem" stroke={4} />
+						</ActionIcon>
 					</div>
 				</Group>
 			</>
