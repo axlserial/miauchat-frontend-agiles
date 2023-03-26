@@ -50,19 +50,43 @@ function PantallaPrincipal() {
 	const clearUsuario = useSessionStore((state) => state.clearUsuario);
 	const { salas, fetchSalas } = useSalaStore();
 	const usuario = useSessionStore((state) => state.usuario);
-	let rutaImagen = null;
-	if (usuario.foto_perfil == 1)
-		rutaImagen = img1
-	if (usuario.foto_perfil == 2)
-		rutaImagen = img2
-	if (usuario.foto_perfil == 3)
-		rutaImagen = img3
-	if (usuario.foto_perfil == 4)
-		rutaImagen = img4
-	if (usuario.foto_perfil == 5)
-		rutaImagen = img5
-	if (usuario.foto_perfil == 6)
-		rutaImagen = img6
+	let component = null;
+	if (usuario.foto_perfil == 1) component =
+		<Avatar
+			src={img1}
+			radius="90%"
+			size="30%"
+		/>;
+	if (usuario.foto_perfil == 2) component =
+		<Avatar
+			src={img2}
+			radius="90%"
+			size="30%"
+		/>;
+	if (usuario.foto_perfil == 3) component =
+		<Avatar
+			src={img3}
+			radius="90%"
+			size="30%"
+		/>;
+	if (usuario.foto_perfil == 4) component =
+		<Avatar
+			src={img4}
+			radius="90%"
+			size="30%"
+		/>;
+	if (usuario.foto_perfil == 5) component =
+		<Avatar
+			src={img5}
+			radius="90%"
+			size="30%"
+		/>;
+	if (usuario.foto_perfil == 6) component =
+		<Avatar
+			src={img6}
+			radius="90%"
+			size="30%"
+		/>;
 
 
 	useEffect(() => {
@@ -118,11 +142,7 @@ function PantallaPrincipal() {
 										}}
 									>
 										{/*foto de perfil */}
-										<Avatar
-											src={rutaImagen}
-											radius="90%"
-											size="30%"
-										/>;
+										{component}
 									</div>
 								</Grid.Col>
 								<Grid.Col span={2}>
