@@ -4,9 +4,9 @@
  * En desarrollo se usa localhost:5173,
  * en producción se usa la misma url de la página.
  */
-let ApiUrl = "";
+let ApiUrl = "/";
 if (window.location.href.includes("localhost:5173")) {
-	ApiUrl = "http://localhost:3146";
+	ApiUrl = "http://localhost:3146/";
 }
 
 export { ApiUrl };

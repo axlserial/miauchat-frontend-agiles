@@ -8,7 +8,7 @@ import { ApiUrl } from "./baseUrl";
  */
 const createApi = (ruta: string) =>
 	ky.create({
-		prefixUrl: `${ApiUrl}/api/v1/${ruta}`,
+		prefixUrl: `${ApiUrl}api/v1/${ruta}`,
 		credentials: "include",
 	});
 

@@ -18,6 +18,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ModalCrearSala } from '../pages/crearModal';
 import { useSalaStore } from '../stores/salaStore';
 import { useSessionStore } from '../stores/sessionStore';
+import { useSocketStore } from '../stores/socket.store';
 import { IconDoorExit, IconPlus } from '@tabler/icons-react';
 import { Rutas } from '../routes';
 import { logout } from '../services/usuarios';
@@ -42,6 +43,7 @@ function PantallaPrincipal() {
 		HTMLDivElement,
 		HTMLDivElement
 	>();
+
 	const navigate = useNavigate();
 	const [exit, setExit] = useState(0);
 	const increment = useCallback(() => setExit(1), []);
@@ -50,7 +52,11 @@ function PantallaPrincipal() {
 	const clearUsuario = useSessionStore(state => state.clearUsuario);
 	const { salas, fetchSalas, setActual } = useSalaStore();
 	const usuario = useSessionStore(state => state.usuario);
+	const setSocket = useSocketStore(state => state.setSocket);
+	const closeSocket = useSocketStore(state => state.closeSocket);
+
 	let component = null;
+
 	if (usuario.foto_perfil == 1)
 		component = <Avatar src={img1} radius="90%" size="30%" />;
 	if (usuario.foto_perfil == 2)
@@ -65,6 +71,7 @@ function PantallaPrincipal() {
 		component = <Avatar src={img6} radius="90%" size="30%" />;
 
 	useEffect(() => {
+		setSocket(usuario.id);
 		(async () => await fetchSalas(usuario.id))();
 	}, []);
 	{
@@ -74,6 +81,7 @@ function PantallaPrincipal() {
 		if (exit == 1) {
 			logout().then(() => {
 				clearUsuario();
+				closeSocket();
 				navigate(Rutas.login);
 			});
 		}
