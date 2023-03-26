@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Container } from "@mantine/core";
+import { Container, Flex } from "@mantine/core";
 import { base, Rutas } from "./routes";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -53,9 +53,9 @@ const App = () => {
 			</Route>
 
 			{/* Not found */}
-			<Route path="*" element={<Container sx={{paddingTop: "2%", paddingBottom:"2%", backgroundColor:"GrayText"}}>
+			<Route path="*" element={<Flex justify="center" align="center" direction="column" >
 				<NotFound />
-			</Container>} />
+			</Flex>} />
 		</Routes>
 	);
 };
