@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Registro from "./pages/registro";
 import PantallaPrincipal from "./pages/PantallaPrincipal";
+import Chats from "./components/Chats";
 
 const App = () => {
 	const usuario = useSessionStore((state) => state.usuario);
@@ -44,18 +45,30 @@ const App = () => {
 			/>
 			{/* Ruta chats, protegida */}
 			<Route element={<ProtectedRoute isAuth={usuario.id !== 0} />}>
-				<Route path={Rutas.chats} element={
-					<Container size="95%" sx={{ paddingTop: "2%", paddingBottom: "2%" }}>
-						<PantallaPrincipal />
-					</Container>
-				}
-				/>
+				<Route
+					path={Rutas.chats}
+					element={
+						<Container
+							size="95%"
+							sx={{ paddingTop: "2%", paddingBottom: "2%" }}
+						>
+							<PantallaPrincipal />
+						</Container>
+					}
+				>
+					<Route path={Rutas.chats + "/:id"} element={<Chats />} />
+				</Route>
 			</Route>
 
 			{/* Not found */}
-			<Route path="*" element={<Flex justify="center" align="center" direction="column" >
-				<NotFound />
-			</Flex>} />
+			<Route
+				path="*"
+				element={
+					<Flex justify="center" align="center" direction="column">
+						<NotFound />
+					</Flex>
+				}
+			/>
 		</Routes>
 	);
 };
