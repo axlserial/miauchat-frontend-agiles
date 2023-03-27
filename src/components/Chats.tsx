@@ -27,7 +27,7 @@ import {
 import { notifications } from '@mantine/notifications';
 import { Rutas } from '../routes';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import { Usuario } from '../types';
 
 function chats() {
 	const { height } = useViewportSize();
@@ -41,8 +41,8 @@ function chats() {
 	//const nuevo_nombre:any="";
 	const [nuevo_nombre, setValueNuevoNombre] = useState('');
 	const navigate = useNavigate();
-	const [participantes, setParticipantes] = useState([]);
-	const [selectedParticipante, setSelectedParticipante] = useState(null);
+	const [participantes, setParticipantes] = useState<Usuario[]>([]);
+	const [selectedParticipante, setSelectedParticipante] = useState<any>(null);
 
 	const handleButtonClick = () => {
 		if (selectedParticipante) {
@@ -310,7 +310,7 @@ function chats() {
 					<div>
 					<Select
 						placeholder="Elija un nuevo administrador"
-						data={participantes.map(participante => ({value: participante.id, label: participante.usuario}))}
+						data={participantes.map(participante => ({value: participante.id, label: participante.usuario})) as any}
 						value={selectedParticipante}
           				onChange={value => setSelectedParticipante(value)}
 						/>

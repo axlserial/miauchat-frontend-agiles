@@ -52,7 +52,7 @@ export const eliminarSala = (sala_id: string) => {
 //Servicio para obtener los participantes de una sala 
 export const participantesSala = (sala_id: string) => {
 	console.log('servicio participantesSala en salas.ts');
-	return api.get(`participantes/${sala_id}`).json<Usuario>();
+	return api.get(`participantes/${sala_id}`).json<Usuario[]>();
 };
 
 //Servicio para cambair el administrador de la sala
