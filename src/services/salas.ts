@@ -27,7 +27,7 @@ export const getSalas = (usuario_id: number) => {
 };
 
 //Servicio para cambair nombre de la sala
-export const cambiarNombreSala = (signUpData:{
+export const cambiarNombreSala = (signUpData: {
 	sala_id: string;
 	nuevo_nombre: string;
 }) => {
@@ -39,3 +39,17 @@ export const cambiarNombreSala = (signUpData:{
 export const eliminarParticipante = (usuario_id: number, sala_id: string) => {
 	return api.delete(`eliminar-participante/${usuario_id}/${sala_id}`)
 }
+
+//Servicio para eliminar una sala
+export const eliminarSala = (sala_id: string) => {
+	//salasRouter.delete('/eliminarSala:/sala_id', salasController.eliminarSala);
+
+	console.log('servicio eliminarSala en salas.ts');
+	return api.delete(`eliminarSala/${sala_id}`);
+};
+
+//Servicio para obtener los participantes de una sala 
+export const participantesSala = (sala_id: string) => {
+	console.log('servicio participantesSala en salas.ts');
+	return api.get(`participantes/${sala_id}`).json<Sala[]>();;
+};
