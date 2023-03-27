@@ -1,5 +1,6 @@
 import createApi from "./config";
 import { Sala } from "../types";
+import { Usuario } from "../types";
 
 const api = createApi("salas");
 
@@ -51,5 +52,10 @@ export const eliminarSala = (sala_id: string) => {
 //Servicio para obtener los participantes de una sala 
 export const participantesSala = (sala_id: string) => {
 	console.log('servicio participantesSala en salas.ts');
-	return api.get(`participantes/${sala_id}`).json<Sala[]>();;
+	return api.get(`participantes/${sala_id}`).json<Usuario>();
+};
+
+//Servicio para cambair el administrador de la sala
+export const cambiarAdmiSala = (Nuevo_Creador_id:number, sala_id: string) => {
+	return api.put(`cambiarAdmiSala/${Nuevo_Creador_id}/${sala_id}`);
 };

@@ -16,12 +16,13 @@ import ChatBody from './ChatBody';
 import { IconMenu2 } from '@tabler/icons-react';
 import { IconTransferOut, IconEdit, IconTrash } from '@tabler/icons-react';
 import { useSessionStore } from '../stores/sessionStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	eliminarParticipante,
 	cambiarNombreSala,
 	eliminarSala,
-	participantesSala
+	participantesSala,
+	cambiarAdmiSala
 } from '../services/salas';
 import { notifications } from '@mantine/notifications';
 import { Rutas } from '../routes';
@@ -39,8 +40,19 @@ function chats() {
 	const { fetchSalas } = useSalaStore();
 	//const nuevo_nombre:any="";
 	const [nuevo_nombre, setValueNuevoNombre] = useState('');
-
 	const navigate = useNavigate();
+	const [participantes, setParticipantes] = useState([]);
+	const [selectedParticipante, setSelectedParticipante] = useState(null);
+
+	const handleButtonClick = () => {
+		if (selectedParticipante) {
+		  // llama a una función con el valor seleccionado como argumento
+		  abandonarSalaAdm(selectedParticipante);
+		} else {
+		  console.log('Selecciona un participante primero');
+		}
+	  };
+
 	function openModalNombre() {
 		setModalNombre(true);
 	}
@@ -140,12 +152,41 @@ function chats() {
 			});
 		}
 	}
-	async function abandonarSalaAdm(sala_id: string) {
-		const [searchValue, onSearchChange] = useState('');
-		console.log('abandonarSalaAdm');
+	async function listParticipantes(sala_id: string) {
 		const participantes = await participantesSala(sala_id);
-		console.log('*****', participantes);
+		return participantes
 	}
+	async function abandonarSalaAdm(usuario_id: number) {
+		try {
+			const data = await cambiarAdmiSala(usuario_id, salaActual.id);
+			const data2 = await eliminarParticipante(usuario.id, salaActual.id);
+			fetchSalas(usuario.id);
+			navigate(Rutas.chats);
+			notifications.show({
+				title: 'Exitoso',
+				color: 'green',
+				message: 'Has abandonada la sala exitosamente'
+			});
+		} catch (error: any) {
+			let mensaje = 'Falló al abandonar sala';
+			if (error.message === 'Failed to fetch') {
+				mensaje = 'Error de conexión, intente de nuevo';
+			}
+
+			notifications.show({
+				title: 'Error',
+				color: 'red',
+				message: mensaje
+			});
+		}
+	}
+	useEffect(() => {
+		async function fetchParticipantes() {
+		  const listaParticipantes = await listParticipantes(salaActual.id);
+		  setParticipantes(listaParticipantes);
+		}
+		fetchParticipantes();
+	  }, [salaActual.id]);
 	return (
 		<AppShell
 			// contenido del chat (nombre y codigo de sala y opciones )
@@ -263,12 +304,23 @@ function chats() {
 				onClose={() => setModalAbandonarAdmi(false)}
 			>
 				<h3> ¿Seguro que deseas abandonar la sala {salaActual.nombre_sala}?</h3>
+				<p>Deberá elegir un nuevo administrador</p>
+				
 				<div>
+					<div>
+					<Select
+						placeholder="Elija un nuevo administrador"
+						data={participantes.map(participante => ({value: participante.id, label: participante.usuario}))}
+						value={selectedParticipante}
+          				onChange={value => setSelectedParticipante(value)}
+						/>
+					</div>
+					<br />
 					<div style={{ display: 'inline-block', marginLeft: '6rem' }}>
 						<Button
 							variant="gradient"
 							gradient={{ from: 'indigo', to: 'cyan' }}
-							onClick={() => abandonarSalaAdm(salaActual.id)}
+							onClick={handleButtonClick}
 						>
 							Abandonar
 						</Button>
