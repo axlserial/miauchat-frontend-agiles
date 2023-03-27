@@ -20,6 +20,7 @@ import { notifications } from "@mantine/notifications";
 import { useSessionStore } from "../stores/sessionStore";
 import { IconDatabaseExport } from '@tabler/icons-react';
 import { useSalaStore } from '../stores/salaStore';
+import { Rutas } from '../routes';
 
 export function ModalCrearSala(props: PaperProps) {
   const navigate = useNavigate();
@@ -94,11 +95,12 @@ export function ModalCrearSala(props: PaperProps) {
     
     try{
       const data = await crear({ creador_id, nombre_sala });
+      console.log(data.id)
       fetchSalas(creador_id);
       notifications.show({
 				title: "Exitoso",
 				color: "green",
-				message: "Se creo la sala exitosamente",
+				message: "Se creo la sala exitosamente, su código es " + data.id,
 			});
     }catch (error: any) {
 			let mensaje = "Ingrese el nombre de la Sala";
@@ -117,6 +119,7 @@ export function ModalCrearSala(props: PaperProps) {
     try{
       const data = await unirse({ usuario_id, sala_id });
       fetchSalas(usuario_id);
+      navigate(Rutas.chats + `/${sala_id}`);
       notifications.show({
 				title: "Exitoso",
 				color: "green",
