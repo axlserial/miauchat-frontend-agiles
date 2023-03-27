@@ -1,7 +1,7 @@
 import createApi from './config';
 import { Mensaje_sala } from '../types';
 
-const api = createApi('/mensajes');
+const api = createApi('mensajes');
 
 // Servicio para obtener los mensajes de una sala
 export const getMensajes = (sala_id: string) => {

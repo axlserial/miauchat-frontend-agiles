@@ -2,7 +2,7 @@ import createApi from "./config";
 import { Usuario } from "../types";
 
 // Objeto para peticiones
-const api = createApi("/usuarios");
+const api = createApi("usuarios");
 
 // Servicio para registrar un usuario
 export const signup = (signUpData: {

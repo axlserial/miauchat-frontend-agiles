@@ -1,7 +1,7 @@
 import createApi from "./config";
 import { Sala } from "../types";
 
-const api = createApi("/salas");
+const api = createApi("salas");
 
 //Servcio para crear una sala
 export const crear = (signUpData: {
