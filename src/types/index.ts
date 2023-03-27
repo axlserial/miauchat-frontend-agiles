@@ -10,14 +10,14 @@ export type Sala = {
 	id: string;
 	creador_id: number;
 	nombre_sala: string;
-	ultimo_mensaje?: Date;
+	ultimo_mensaje?: string;
 };
 
 export type Mensaje = {
 	id?: number;
 	contenido: string;
 	emisor_id: number;
-	fecha_enviado: Date;
+	fecha_enviado: string;
 	sala_id: string;
 	es_adjunto: number;
 };
@@ -27,7 +27,7 @@ export type Mensaje_with_author = {
 	usuario: string;
 	contenido: string;
 	emisor_id: number;
-	fecha_enviado: Date;
+	fecha_enviado: string;
 	sala_id: string;
 	es_adjunto: number;
 };
@@ -42,4 +42,13 @@ export type Archivo_adjunto = {
 export type Mensaje_sala = {
 	mensaje: Mensaje_with_author;
 	archivo?: Archivo_adjunto;
+};
+
+export type DataSend = {
+	mensajeData: Mensaje_with_author;
+	archivoData?: {
+		archivo: Buffer;
+		nombre: string;
+		extension: string;
+	};
 };

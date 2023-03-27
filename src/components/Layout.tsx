@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import { Outlet } from "react-router-dom";
 import { Image } from "@mantine/core";
 import { useParams } from "react-router-dom";
@@ -6,11 +7,16 @@ import bgImage from "../assets/images/Icon_MiauChat.svg";
 
 const Layout = () => {
 	let { id } = useParams();
+	let OutletReload = () => <Outlet />;
+
+	useEffect(() => {
+		OutletReload = () => <Outlet />;
+	}, [id]);
 
 	return (
 		<div>
 			{id ? (
-				<Outlet />
+				<OutletReload />
 			) : (
 				<div
 					style={{

@@ -1,20 +1,19 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { Container, Flex } from "@mantine/core";
-import { base, Rutas } from "./routes";
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { Container, Flex } from '@mantine/core';
+import { base, Rutas } from './routes';
 
-import ProtectedRoute from "./components/ProtectedRoute";
-import { useSessionStore } from "./stores/sessionStore";
-import Layout from "./components/Layout";
+import ProtectedRoute from './components/ProtectedRoute';
+import { useSessionStore } from './stores/sessionStore';
 
 // Page components
-import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
-import Registro from "./pages/registro";
-import PantallaPrincipal from "./pages/PantallaPrincipal";
-import Chats from "./components/Chats";
+import Login from './pages/Login';
+import NotFound from './pages/NotFound';
+import Registro from './pages/registro';
+import PantallaPrincipal from './pages/PantallaPrincipal';
+import Chats from './components/Chats';
 
 const App = () => {
-	const usuario = useSessionStore((state) => state.usuario);
+	const usuario = useSessionStore(state => state.usuario);
 
 	return (
 		<Routes>
@@ -28,7 +27,7 @@ const App = () => {
 			<Route
 				path={Rutas.login}
 				element={
-					<Container sx={{ paddingTop: "4%", paddingBottom: "4%" }}>
+					<Container sx={{ paddingTop: '4%', paddingBottom: '4%' }}>
 						<Login />
 					</Container>
 				}
@@ -38,7 +37,7 @@ const App = () => {
 			<Route
 				path={Rutas.signup}
 				element={
-					<Container sx={{ paddingTop: "4%", paddingBottom: "4%" }}>
+					<Container sx={{ paddingTop: '4%', paddingBottom: '4%' }}>
 						<Registro />
 					</Container>
 				}
@@ -50,13 +49,13 @@ const App = () => {
 					element={
 						<Container
 							size="95%"
-							sx={{ paddingTop: "1.5vh", paddingBottom: "1vh" }}
+							sx={{ paddingTop: '1.5vh', paddingBottom: '1vh' }}
 						>
 							<PantallaPrincipal />
 						</Container>
 					}
 				>
-					<Route path={Rutas.chats + "/:id"} element={<Chats />} />
+					<Route path={Rutas.chats + '/:id'} element={<Chats />} />
 				</Route>
 			</Route>
 
