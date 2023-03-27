@@ -27,6 +27,15 @@ export const getSalas = (usuario_id: number) => {
 };
 
 //Servicio para cambair nombre de la sala
-export const cambiarNombreS = (sala_id: string, nuevo_nombre: string) => {
-	return api.put(`cambiarNombreSala/${sala_id}/${nuevo_nombre}`)
+export const cambiarNombreSala = (signUpData:{
+	sala_id: string;
+	nuevo_nombre: string;
+}) => {
+	return api.put("cambiarNombreSala", { json: signUpData }).json<Sala>();
+};
+
+
+//Servicio para eliminar participante
+export const eliminarParticipante = (usuario_id: number, sala_id: string) => {
+	return api.delete(`eliminar-participante/${usuario_id}/${sala_id}`)
 }

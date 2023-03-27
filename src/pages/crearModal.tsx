@@ -101,7 +101,7 @@ export function ModalCrearSala(props: PaperProps) {
 				message: "Se creo la sala exitosamente",
 			});
     }catch (error: any) {
-			let mensaje = "Usuario o contraseña incorrectos";
+			let mensaje = "Ingrese el nombre de la Sala";
 			if (error.message === "Failed to fetch") {
 				mensaje = "Error de conexión, intente de nuevo";
 			}
