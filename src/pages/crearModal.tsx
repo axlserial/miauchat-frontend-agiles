@@ -25,7 +25,7 @@ import { Rutas } from '../routes';
 export function ModalCrearSala(props: PaperProps) {
   const navigate = useNavigate();
   const usuario = useSessionStore((state) => state.usuario);
-  const { fetchSalas } = useSalaStore();
+  const { fetchSalas, setActual } = useSalaStore();
   const [type, toggle] = useToggle(['crear', 'unirse']);
   const form = useForm({
     initialValues: {
@@ -97,6 +97,8 @@ export function ModalCrearSala(props: PaperProps) {
       const data = await crear({ creador_id, nombre_sala });
       console.log(data.id)
       fetchSalas(creador_id);
+      setActual(data);
+      navigate(Rutas.chats + `/${data.id}`);
       notifications.show({
 				title: "Exitoso",
 				color: "green",

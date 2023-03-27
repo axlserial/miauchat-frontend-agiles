@@ -210,13 +210,13 @@ function chats() {
 								fontSize: '24px',
 								fontWeight: 'bold',
 								marginBottom: '5px',
-								marginLeft: '60vh'
+								marginLeft: '48vh'
 							}}
 						>
 							{salaActual.nombre_sala}
 						</h2>
 						<Badge color='cyan' radius='md' style={{fontSize: '16px',
-								marginLeft: '60vh'}}>{salaActual.id}</Badge>
+								marginLeft: '48vh'}}> Código de acceso: {salaActual.id}</Badge>
 					</div>
 					<Menu shadow="md" width={200}>
 						<Menu.Target>
