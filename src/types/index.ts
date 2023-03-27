@@ -47,7 +47,7 @@ export type Mensaje_sala = {
 export type DataSend = {
 	mensajeData: Mensaje_with_author;
 	archivoData?: {
-		archivo: Buffer;
+		archivo: File;
 		nombre: string;
 		extension: string;
 	};

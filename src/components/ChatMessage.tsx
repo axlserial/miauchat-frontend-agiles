@@ -27,16 +27,19 @@ const ChatMessage = ({ mensaje, esPropio }: ChatMessageProps) => {
 				alignSelf: esPropio ? 'flex-end' : 'flex-start'
 			}}
 		>
+			{/* Nombre de usuario */}
 			<Text fw={700} c={esPropio ? '#008599' : '#495057'}>
 				{esPropio ? 'Tú' : mensaje.mensaje.usuario}
 			</Text>
 
+			{/* Mensaje */}
 			<Text
 				fz="sm"
 				c="#545454"
 				sx={{
 					fontFamily: 'Greycliff CF, sans-serif',
-					wordWrap: 'break-word'
+					wordWrap: 'break-word',
+					whiteSpace: 'pre-wrap'
 				}}
 			>
 				{mensaje.mensaje.contenido}
