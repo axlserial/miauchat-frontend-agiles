@@ -38,15 +38,12 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
 			}
 		});
 
-		socketNuevo.on('name-sala', (sala: Sala) => {
-			const idUrl = window.location.pathname.split('/').at(-1) as string;
+		socketNuevo.on('name-sala', async (sala: Sala) => {
+			const idUrl = window.location.pathname.split('/').at(-1);
 
-			const salaCambio = salas.find(s => s.id === sala.id);
-			if (!salaCambio) return;
+			await fetchSalas(idUsuario);
 
-			setSalas(salas.map(s => (s.id === sala.id ? sala : s)));
-
-			if (idUrl === sala.id) {
+			if (idUrl && idUrl === sala.id) {
 				setActual(sala);
 			}
 		});
