@@ -19,7 +19,7 @@ export const unirse = (addUserData: {
 	sala_id: string;
 }) => {
 	console.log("UnirASala.ts");
-	return api.post("addParticipante", { json: addUserData });
+	return api.post("addParticipante", { json: addUserData }).json<Sala>();
 };
 
 //Servicio para cargar todas las salas

@@ -39,7 +39,7 @@ const ChatBody = ({ sala }: ChatBodyProps) => {
 
 	// Referencia al scroll
 	const scrollRef = useRef<HTMLDivElement>(null);
-	
+
 	// Referencia al boton de enviar
 	const btnSubmitRef = useRef<HTMLButtonElement>(null);
 
@@ -60,8 +60,7 @@ const ChatBody = ({ sala }: ChatBodyProps) => {
 	});
 
 	// Se obtienen los mensajes de la sala
-	useEffect(() => {
-		setLoading(true);
+	const obtenerMensajes = () =>
 		getMensajes(sala.id)
 			.then(data => {
 				setMensajes(data);
@@ -73,8 +72,15 @@ const ChatBody = ({ sala }: ChatBodyProps) => {
 					color: 'red',
 					message: 'Error al cargar los mensajes'
 				});
-			})
-			.finally(() => setLoading(false));
+			});
+
+	useEffect(() => {
+		setLoading(true);
+		obtenerMensajes().finally(() => setLoading(false));
+	}, []);
+
+	useEffect(() => {
+		obtenerMensajes();
 	}, [sala]);
 
 	// Se hace scroll al final de la lista de mensajes

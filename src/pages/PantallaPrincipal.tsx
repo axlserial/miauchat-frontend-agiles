@@ -48,7 +48,7 @@ function PantallaPrincipal() {
 
 	const navigate = useNavigate();
 	const clearUsuario = useSessionStore(state => state.clearUsuario);
-	const { salas, fetchSalas, setActual } = useSalaStore();
+	const { salas, setSalas, fetchSalas, setActual } = useSalaStore();
 	const usuario = useSessionStore(state => state.usuario);
 	const setSocket = useSocketStore(state => state.setSocket);
 	const closeSocket = useSocketStore(state => state.closeSocket);
@@ -72,7 +72,7 @@ function PantallaPrincipal() {
 		component = <Avatar src={img6} radius="90%" size="30%" />;
 
 	useEffect(() => {
-		setSocket(usuario.id);
+		setSocket(usuario.id, salas, fetchSalas, setSalas, setActual, navigate);
 		fetchSalas(usuario.id)
 			.then(data => {
 				if (id != undefined) {

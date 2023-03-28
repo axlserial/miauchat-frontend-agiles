@@ -1,10 +1,20 @@
 import { create } from 'zustand';
 import { Socket, io } from 'socket.io-client';
 import { ApiUrl } from '../services/baseUrl';
+import { Sala } from '../types';
+import { Rutas } from '../routes';
+import { NavigateFunction } from 'react-router-dom';
 
 type SocketStore = {
 	socket: Socket | null;
-	setSocket: (id: number) => void;
+	setSocket: (
+		idUsuario: number,
+		salas: Sala[],
+		fetchSalas: (id: number) => Promise<Sala[]>,
+		setSalas: (salas: Sala[]) => void,
+		setActual: (sala: Sala) => void,
+		navi: NavigateFunction
+	) => void;
 	closeSocket: () => void;
 };
 
@@ -14,13 +24,58 @@ type SocketStore = {
  */
 export const useSocketStore = create<SocketStore>((set, get) => ({
 	socket: null,
-	setSocket: id => {
-		const socket = io(ApiUrl, {
+	setSocket: (idUsuario, salas, fetchSalas, setSalas, setActual, navi) => {
+		const { socket } = get();
+
+		// Si ya hay un socket, no se crea uno nuevo
+		if (socket) {
+			return;
+		}
+
+		const socketNuevo = io(ApiUrl, {
 			query: {
-				id
+				id: idUsuario
 			}
 		});
-		set({ socket });
+
+		socketNuevo.on('name-sala', (sala: Sala) => {
+			const idUrl = window.location.pathname.split('/').at(-1) as string;
+
+			const salaCambio = salas.find(s => s.id === sala.id);
+			if (!salaCambio) return;
+
+			setSalas(salas.map(s => (s.id === sala.id ? sala : s)));
+
+			if (idUrl === sala.id) {
+				setActual(sala);
+			}
+		});
+
+		socketNuevo.on('deleted-sala', (sala_id: string) => {
+			const idUrl = window.location.pathname.split('/').at(-1);
+
+			const salaEliminar = salas.find(s => s.id === sala_id);
+			if (!salaEliminar) return;
+
+			setSalas(salas.filter(s => s.id !== sala_id));
+
+			if (idUrl && idUrl === sala_id) {
+				navi(Rutas.chats);
+			}
+		});
+
+		socketNuevo.on('newed-admin', async (admin_id: number, sala_id: string) => {
+			if (idUsuario != admin_id) return;
+
+			await fetchSalas(idUsuario);
+
+			const idUrl = window.location.pathname.split('/').at(-1);
+			if (idUrl && idUrl === sala_id) {
+				navi(Rutas.chats);
+			}
+		});
+
+		set({ socket: socketNuevo });
 	},
 	closeSocket: () => {
 		const { socket } = get();

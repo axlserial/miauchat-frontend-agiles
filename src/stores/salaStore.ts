@@ -7,6 +7,7 @@ type SalaStore = {
 	salaActual: Sala;
 	setActual: (sala: Sala) => void;
 	clearActual: () => void;
+	setSalas: (salas: Sala[]) => void;
 	fetchSalas: (id: number) => Promise<Sala[]>;
 };
 
@@ -19,6 +20,7 @@ export const useSalaStore = create<SalaStore>(set => ({
 	salaActual: { id: '', creador_id: 0, nombre_sala: '' },
 	setActual: sala => set({ salaActual: sala }),
 	clearActual: () => set({ salaActual: { id: '', creador_id: 0, nombre_sala: '' } }),
+	setSalas: salas => set({ salas }),
 	fetchSalas: async id => {
 		// Se llama al servicio para obtener las salas del usuario.
 		let salas: Sala[] = [];
