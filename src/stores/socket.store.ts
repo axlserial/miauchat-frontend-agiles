@@ -51,13 +51,10 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
 			}
 		});
 
-		socketNuevo.on('deleted-sala', (sala_id: string) => {
+		socketNuevo.on('deleted-sala', async (sala_id: string) => {
 			const idUrl = window.location.pathname.split('/').at(-1);
-
-			const salaEliminar = salas.find(s => s.id === sala_id);
-			if (!salaEliminar) return;
-
-			setSalas(salas.filter(s => s.id !== sala_id));
+			
+			await fetchSalas(idUsuario);
 
 			if (idUrl && idUrl === sala_id) {
 				navi(Rutas.chats);
